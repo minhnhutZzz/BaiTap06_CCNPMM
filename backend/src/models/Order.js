@@ -18,8 +18,16 @@ const Order = sequelize.define(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('pending', 'shipping', 'completed', 'cancelled'),
-      defaultValue: 'pending', // Mặc định vừa đặt xong là Chờ xử lý
+      type: DataTypes.ENUM(
+        'new',                // 1. Đơn hàng mới
+        'confirmed',          // 2. Đã xác nhận
+        'preparing',          // 3. Shop đang chuẩn bị
+        'delivering',         // 4. Đang giao hàng
+        'delivered',          // 5. Đã giao thành công
+        'cancelled',          // 6. Hủy đơn hàng
+        'cancel_requested'    // Gửi yêu cầu hủy đơn
+      ),
+      defaultValue: 'new',
     },
     payment_method: {
       type: DataTypes.STRING,

@@ -90,6 +90,104 @@ const orderController = {
         message: isCustomError ? error.message : 'Lỗi server khi thanh toán' 
       });
     }
+  },
+
+  // -------------------------------------------------------------
+  // Lấy danh sách lịch sử đơn hàng của người dùng
+  // -------------------------------------------------------------
+  getUserOrders: async (req, res) => {
+    try {
+      const user_id = req.user.id;
+      const orders = await Order.findAll({
+        where: { user_id },
+        order: [['createdAt', 'DESC']], // Đơn mới nhất xếp lên đầu
+        include: [
+          {
+            model: OrderItem,
+            as: 'items',
+            include: [{ model: Product, attributes: ['id', 'name', 'thumbnail'] }]
+          }
+        ]
+      });
+
+      res.status(200).json({ success: true, data: orders });
+    } catch (error) {
+      console.error('Lỗi lấy lịch sử đơn hàng:', error);
+      res.status(500).json({ success: false, message: 'Lỗi server khi lấy lịch sử đơn hàng' });
+    }
+  },
+
+  // -------------------------------------------------------------
+  // Hủy đơn hàng (Logic phức tạp theo yêu cầu)
+  // -------------------------------------------------------------
+  cancelOrder: async (req, res) => {
+    try {
+      const user_id = req.user.id;
+      const order_id = req.params.id;
+
+      const order = await Order.findOne({ where: { id: order_id, user_id } });
+
+      if (!order) {
+        return res.status(404).json({ success: false, message: 'Không tìm thấy đơn hàng' });
+      }
+
+      // Kiểm tra thời gian: Chỉ cho phép hủy trước 30 phút sau khi đặt
+      const currentTime = new Date();
+      const orderTime = new Date(order.createdAt);
+      const diffInMinutes = Math.floor((currentTime - orderTime) / (1000 * 60));
+
+      if (diffInMinutes > 30) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Đã quá 30 phút kể từ lúc đặt hàng, không thể hủy đơn!' 
+        });
+      }
+
+      // Kiểm tra trạng thái hiện tại
+      if (order.status === 'delivering' || order.status === 'delivered') {
+        return res.status(400).json({ success: false, message: 'Đơn hàng đang giao, không thể hủy!' });
+      }
+
+      if (order.status === 'cancelled' || order.status === 'cancel_requested') {
+        return res.status(400).json({ success: false, message: 'Đơn hàng đã bị hủy hoặc đang chờ hủy rồi!' });
+      }
+
+      // Yêu cầu: Nếu đang ở bước 3 (preparing) thì chuyển sang Gửi Yêu cầu hủy đơn
+      if (order.status === 'preparing') {
+        order.status = 'cancel_requested';
+        await order.save();
+        return res.status(200).json({ 
+          success: true, 
+          message: 'Đã gửi yêu cầu hủy đơn cho Shop (Vì shop đang chuẩn bị hàng)',
+          new_status: 'cancel_requested'
+        });
+      }
+
+      // Các trường hợp còn lại (new, confirmed): Cho phép hủy trực tiếp
+      order.status = 'cancelled';
+      await order.save();
+
+      // [Tùy chọn] Phục hồi lại số lượng tồn kho nếu hủy thành công
+      const items = await OrderItem.findAll({ where: { order_id: order.id } });
+      for (const item of items) {
+        const product = await Product.findByPk(item.product_id);
+        if (product) {
+          product.stock += item.quantity;
+          product.sold -= item.quantity;
+          await product.save();
+        }
+      }
+
+      res.status(200).json({ 
+        success: true, 
+        message: 'Hủy đơn hàng thành công',
+        new_status: 'cancelled'
+      });
+
+    } catch (error) {
+      console.error('Lỗi hủy đơn hàng:', error);
+      res.status(500).json({ success: false, message: 'Lỗi server khi hủy đơn hàng' });
+    }
   }
 };
 
