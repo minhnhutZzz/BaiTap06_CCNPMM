@@ -7,12 +7,14 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import productService from '../services/product.service';
+import cartService from '../services/cart.service';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
     const fetchProductDetail = async () => {
@@ -54,6 +56,24 @@ const ProductDetail = () => {
   const handleDecrease = () => {
     if (quantity > 1) {
       setQuantity(prev => prev - 1);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      setIsAdding(true);
+      const res = await cartService.addToCart(product.id, quantity);
+      if (res.success) {
+        alert(`Đã thêm ${quantity} ly ${product.name} vào giỏ hàng thành công! 🛒`);
+      }
+    } catch (error) {
+      if (error.response?.status === 401) {
+        alert('Bạn cần đăng nhập để thêm vào giỏ hàng!');
+      } else {
+        alert(error.response?.data?.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng');
+      }
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -136,8 +156,16 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          <button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-1">
-            Thêm Vào Giỏ Hàng
+          <button 
+            onClick={handleAddToCart}
+            disabled={isAdding || product.stock === 0}
+            className={`w-full font-bold py-4 rounded-xl shadow-lg transform transition ${
+              isAdding || product.stock === 0 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white hover:-translate-y-1'
+            }`}
+          >
+            {isAdding ? 'Đang thêm...' : product.stock === 0 ? 'Tạm Hết Hàng' : 'Thêm Vào Giỏ Hàng'}
           </button>
         </div>
       </div>
