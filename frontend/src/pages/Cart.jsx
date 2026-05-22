@@ -155,9 +155,12 @@ const Cart = () => {
                 <span className="text-indigo-600">{calculateTotal().toLocaleString('vi-VN')} đ</span>
               </div>
 
-              <button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-1">
+              <Link 
+                to="/user/checkout"
+                className="block text-center w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-1"
+              >
                 Tiến Hành Thanh Toán
-              </button>
+              </Link>
             </div>
           </div>
         </div>
