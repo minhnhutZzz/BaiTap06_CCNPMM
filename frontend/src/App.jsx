@@ -19,6 +19,7 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderHistory from './pages/OrderHistory';
+import OrderManagement from './pages/admin/OrderManagement';
 
 // Redirect /profile đến đúng dashboard theo role
 const RoleRedirect = () => {
@@ -85,6 +86,7 @@ const App = () => {
       >
         <Route path="profile" element={<AdminProfile />} />
         <Route path="users" element={<AdminUsers />} />
+        <Route path="orders" element={<OrderManagement />} />
       </Route>
     </Routes>
   );

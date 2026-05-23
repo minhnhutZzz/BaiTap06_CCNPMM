@@ -18,6 +18,19 @@ const orderService = {
   cancelOrder: async (orderId) => {
     const response = await axiosClient.post(`/orders/${orderId}/cancel`);
     return response.data;
+  },
+
+  // ==========================================
+  // API DÀNH CHO ADMIN
+  // ==========================================
+  getAllOrdersAdmin: async () => {
+    const response = await axiosClient.get('/orders/admin/all');
+    return response.data;
+  },
+
+  updateOrderStatusAdmin: async (orderId, status) => {
+    const response = await axiosClient.put(`/orders/admin/${orderId}/status`, { status });
+    return response.data;
   }
 };
 

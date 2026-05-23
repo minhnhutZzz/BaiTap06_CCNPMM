@@ -47,8 +47,9 @@ const userNavItems = [
 
 const adminNavItems = [
   { label: 'Cửa hàng', path: '/user/home', icon: <StoreIcon /> },
-  { label: 'Hồ sơ', path: '/admin/profile', icon: <UserCircleIcon /> },
+  { label: 'Quản lý đơn hàng', path: '/admin/orders', icon: <DocumentIcon /> },
   { label: 'Quản lý người dùng', path: '/admin/users', icon: <UsersIcon /> },
+  { label: 'Hồ sơ', path: '/admin/profile', icon: <UserCircleIcon /> },
 ];
 
 const Sidebar = () => {

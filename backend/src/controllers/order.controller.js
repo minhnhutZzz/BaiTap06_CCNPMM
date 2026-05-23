@@ -188,6 +188,91 @@ const orderController = {
       console.error('Lỗi hủy đơn hàng:', error);
       res.status(500).json({ success: false, message: 'Lỗi server khi hủy đơn hàng' });
     }
+  },
+
+  // =============================================================
+  // CHỨC NĂNG DÀNH CHO ADMIN
+  // =============================================================
+
+  // Lấy tất cả đơn hàng trong hệ thống (dành cho quản lý)
+  getAllOrdersAdmin: async (req, res) => {
+    try {
+      const orders = await Order.findAll({
+        order: [['createdAt', 'DESC']],
+        include: [
+          {
+            model: OrderItem,
+            as: 'items',
+            include: [{ model: Product, attributes: ['id', 'name', 'thumbnail'] }]
+          },
+          {
+            model: require('../models').User,
+            attributes: ['id', 'name', 'email']
+          }
+        ]
+      });
+
+      res.status(200).json({ success: true, data: orders });
+    } catch (error) {
+      console.error('Lỗi lấy danh sách đơn hàng cho admin:', error);
+      res.status(500).json({ success: false, message: 'Lỗi server khi lấy danh sách đơn hàng' });
+    }
+  },
+
+  // Admin cập nhật trạng thái đơn hàng
+  updateOrderStatusAdmin: async (req, res) => {
+    try {
+      const order_id = req.params.id;
+      const { status } = req.body;
+
+      const validStatuses = ['new', 'confirmed', 'preparing', 'delivering', 'delivered', 'cancelled', 'cancel_requested'];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({ success: false, message: 'Trạng thái không hợp lệ' });
+      }
+
+      const order = await Order.findByPk(order_id);
+      if (!order) {
+        return res.status(404).json({ success: false, message: 'Không tìm thấy đơn hàng' });
+      }
+
+      // Xử lý logic hoàn kho nếu đổi trạng thái thành cancelled
+      if (status === 'cancelled' && order.status !== 'cancelled') {
+        const items = await OrderItem.findAll({ where: { order_id: order.id } });
+        for (const item of items) {
+          const product = await Product.findByPk(item.product_id);
+          if (product) {
+            product.stock += item.quantity;
+            product.sold -= item.quantity;
+            await product.save();
+          }
+        }
+      }
+
+      // Nếu từ cancelled chuyển sang trạng thái khác thì phải trừ kho lại (Nâng cao - có thể bỏ qua để đơn giản)
+      if (order.status === 'cancelled' && status !== 'cancelled') {
+        const items = await OrderItem.findAll({ where: { order_id: order.id } });
+        for (const item of items) {
+          const product = await Product.findByPk(item.product_id);
+          if (product && product.stock >= item.quantity) {
+            product.stock -= item.quantity;
+            product.sold += item.quantity;
+            await product.save();
+          }
+        }
+      }
+
+      order.status = status;
+      await order.save();
+
+      res.status(200).json({ 
+        success: true, 
+        message: 'Cập nhật trạng thái thành công', 
+        data: order 
+      });
+    } catch (error) {
+      console.error('Lỗi cập nhật trạng thái đơn hàng:', error);
+      res.status(500).json({ success: false, message: 'Lỗi server khi cập nhật trạng thái' });
+    }
   }
 };
 
