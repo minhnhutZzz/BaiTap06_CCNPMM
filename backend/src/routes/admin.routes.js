@@ -12,4 +12,11 @@ router.use(authenticateToken, authorizeAdmin);
 router.get('/users', adminController.getAllUsers);
 router.put('/users/:id/status', adminController.toggleUserStatus);
 
+// ==========================================
+// QUẢN LÝ SẢN PHẨM (PRODUCT MANAGEMENT)
+// ==========================================
+router.post('/products', adminController.createProduct);
+router.put('/products/:id', adminController.updateProduct);
+router.delete('/products/:id', adminController.deleteProduct);
+
 module.exports = router;
