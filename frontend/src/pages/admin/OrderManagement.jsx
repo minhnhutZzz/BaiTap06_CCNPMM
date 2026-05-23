@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import orderService from '../../../services/order.service';
+import orderService from '../../services/order.service';
 
 const getStatusDisplay = (status) => {
   const statusMap = {
