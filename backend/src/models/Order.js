@@ -34,6 +34,10 @@ const Order = sequelize.define(
       defaultValue: 'COD', // Bắt buộc theo đề bài là COD (Thanh toán khi nhận hàng)
       allowNull: false,
     },
+    payment_status: {
+      type: DataTypes.ENUM('unpaid', 'paid'),
+      defaultValue: 'unpaid',
+    },
     shipping_address: {
       type: DataTypes.STRING,
       allowNull: false, // Bắt buộc phải có địa chỉ giao hàng

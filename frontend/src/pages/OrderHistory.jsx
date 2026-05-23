@@ -131,7 +131,17 @@ const OrderHistory = () => {
 
                 {/* Footer tổng tiền */}
                 <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-between items-center">
-                  <span className="text-gray-600">Thanh toán: COD</span>
+                  <div className="flex flex-col text-sm text-gray-600">
+                    <span>
+                      Thanh toán: <span className="font-semibold text-gray-800 uppercase">{order.payment_method}</span>
+                    </span>
+                    <span className="mt-1">
+                      Trạng thái:{' '}
+                      <span className={`font-semibold ${order.payment_status === 'paid' ? 'text-green-600' : 'text-orange-500'}`}>
+                        {order.payment_status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                      </span>
+                    </span>
+                  </div>
                   <div className="text-right">
                     <span className="text-gray-600 mr-4">Tổng tiền:</span>
                     <span className="text-xl font-bold text-gray-900">{Number(order.total_price).toLocaleString('vi-VN')} đ</span>

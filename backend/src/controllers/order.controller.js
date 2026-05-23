@@ -10,11 +10,15 @@ const orderController = {
 
     try {
       const user_id = req.user.id;
-      const { shipping_address, phone_number, note } = req.body;
+      const { shipping_address, phone_number, note, payment_method } = req.body;
 
       if (!shipping_address || !phone_number) {
         return res.status(400).json({ success: false, message: 'Vui lòng cung cấp đủ địa chỉ và số điện thoại' });
       }
+
+      // Các phương thức thanh toán được chấp nhận
+      const validMethods = ['COD', 'bank_transfer', 'momo', 'zalopay', 'vnpay'];
+      const finalPaymentMethod = validMethods.includes(payment_method) ? payment_method : 'COD';
 
       // 1. Lấy toàn bộ giỏ hàng của user
       const cartItems = await CartItem.findAll({
@@ -44,7 +48,7 @@ const orderController = {
         shipping_address,
         phone_number,
         note,
-        payment_method: 'COD' // Bắt buộc là COD theo yêu cầu
+        payment_method: finalPaymentMethod
       }, { transaction: t });
 
       // 4. Lập chi tiết hóa đơn (OrderItem) & Trừ tồn kho (Product)
@@ -262,6 +266,12 @@ const orderController = {
       }
 
       order.status = status;
+      
+      // Nếu Admin chuyển trạng thái sang Đã Giao Hàng (delivered) thì tự động cập nhật thanh toán
+      if (status === 'delivered' && order.payment_status === 'unpaid') {
+        order.payment_status = 'paid';
+      }
+
       await order.save();
 
       res.status(200).json({ 

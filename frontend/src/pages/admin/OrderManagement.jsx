@@ -103,6 +103,7 @@ const OrderManagement = () => {
             <tr>
               <th className="px-6 py-4 font-semibold text-gray-600">Mã Đơn</th>
               <th className="px-6 py-4 font-semibold text-gray-600">Khách Hàng</th>
+              <th className="px-6 py-4 font-semibold text-gray-600">Thanh Toán</th>
               <th className="px-6 py-4 font-semibold text-gray-600">Tổng Tiền</th>
               <th className="px-6 py-4 font-semibold text-gray-600">Trạng Thái</th>
               <th className="px-6 py-4 font-semibold text-gray-600">Ngày Đặt</th>
@@ -118,6 +119,12 @@ const OrderManagement = () => {
                   <td className="px-6 py-4">
                     <p className="font-semibold text-gray-800">{order.User?.name}</p>
                     <p className="text-gray-500 text-xs">{order.phone_number}</p>
+                  </td>
+                  <td className="px-6 py-4">
+                    <p className="text-sm font-semibold uppercase text-gray-800">{order.payment_method}</p>
+                    <p className={`text-xs mt-1 font-semibold ${order.payment_status === 'paid' ? 'text-green-600' : 'text-orange-500'}`}>
+                      {order.payment_status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                    </p>
                   </td>
                   <td className="px-6 py-4 font-bold text-gray-900">
                     {Number(order.total_price).toLocaleString('vi-VN')} đ
@@ -147,7 +154,7 @@ const OrderManagement = () => {
             })}
             {orders.length === 0 && (
               <tr>
-                <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
+                <td colSpan="7" className="px-6 py-12 text-center text-gray-500">
                   Chưa có đơn hàng nào trong hệ thống.
                 </td>
               </tr>

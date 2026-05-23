@@ -22,6 +22,7 @@ import OrderHistory from './pages/OrderHistory';
 import OrderManagement from './pages/admin/OrderManagement';
 import ProductManagement from './pages/admin/ProductManagement';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import VnpayReturn from './pages/VnpayReturn';
 
 // Redirect /profile đến đúng dashboard theo role
 const RoleRedirect = () => {
@@ -59,6 +60,9 @@ const App = () => {
 
       {/* Legacy redirect */}
       <Route path="/profile" element={<RoleRedirect />} />
+
+      {/* VNPay return URL - không cần đăng nhập */}
+      <Route path="/payment/vnpay-return" element={<VnpayReturn />} />
 
       {/* User dashboard */}
       <Route
