@@ -21,6 +21,7 @@ import Checkout from './pages/Checkout';
 import OrderHistory from './pages/OrderHistory';
 import OrderManagement from './pages/admin/OrderManagement';
 import ProductManagement from './pages/admin/ProductManagement';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 // Redirect /profile đến đúng dashboard theo role
 const RoleRedirect = () => {
@@ -85,6 +86,8 @@ const App = () => {
           </ProtectedRoute>
         }
       >
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="profile" element={<AdminProfile />} />
         <Route path="users" element={<AdminUsers />} />
         <Route path="orders" element={<OrderManagement />} />

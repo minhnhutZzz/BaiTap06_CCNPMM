@@ -1,4 +1,5 @@
-const { User, Product, ProductImage } = require('../models');
+const { User, Product, ProductImage, Order, OrderItem } = require('../models');
+const { Op } = require('sequelize');
 
 const adminController = {
   // ==========================================
@@ -123,6 +124,50 @@ const adminController = {
     } catch (error) {
       console.error('Lỗi xóa sản phẩm:', error);
       res.status(500).json({ success: false, message: 'Lỗi server khi xóa sản phẩm. Có thể do sản phẩm đã nằm trong đơn hàng.' });
+    }
+  },
+
+  // ==========================================
+  // THỐNG KÊ (DASHBOARD)
+  // ==========================================
+  getDashboardStats: async (req, res) => {
+    try {
+      // 1. Tổng doanh thu (Chỉ tính đơn đã giao thành công)
+      const totalRevenue = await Order.sum('total_price', { where: { status: 'delivered' } }) || 0;
+
+      // 2. Các chỉ số tổng quát
+      const totalOrders = await Order.count();
+      const totalUsers = await User.count({ where: { role: 'user' } });
+      const totalProducts = await Product.count();
+
+      // 3. Lấy 5 đơn hàng mới nhất
+      const recentOrders = await Order.findAll({
+        limit: 5,
+        order: [['createdAt', 'DESC']],
+        include: [{ model: User, attributes: ['name', 'email'] }]
+      });
+
+      // 4. Lấy 5 sản phẩm bán chạy nhất
+      const topProducts = await Product.findAll({
+        limit: 5,
+        order: [['sold', 'DESC']],
+        attributes: ['id', 'name', 'thumbnail', 'price', 'sold', 'stock']
+      });
+
+      res.status(200).json({
+        success: true,
+        data: {
+          totalRevenue,
+          totalOrders,
+          totalUsers,
+          totalProducts,
+          recentOrders,
+          topProducts
+        }
+      });
+    } catch (error) {
+      console.error('Lỗi lấy thống kê dashboard:', error);
+      res.status(500).json({ success: false, message: 'Lỗi server khi lấy dữ liệu thống kê' });
     }
   }
 };

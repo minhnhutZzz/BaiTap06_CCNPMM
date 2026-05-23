@@ -13,6 +13,11 @@ router.get('/users', adminController.getAllUsers);
 router.put('/users/:id/status', adminController.toggleUserStatus);
 
 // ==========================================
+// THỐNG KÊ (DASHBOARD)
+// ==========================================
+router.get('/dashboard', adminController.getDashboardStats);
+
+// ==========================================
 // QUẢN LÝ SẢN PHẨM (PRODUCT MANAGEMENT)
 // ==========================================
 router.post('/products', adminController.createProduct);

@@ -14,6 +14,14 @@ const adminService = {
   },
 
   // ==========================================
+  // THỐNG KÊ (DASHBOARD)
+  // ==========================================
+  getDashboardStats: async () => {
+    const response = await axiosClient.get('/admin/dashboard');
+    return response.data;
+  },
+
+  // ==========================================
   // QUẢN LÝ SẢN PHẨM
   // ==========================================
   createProduct: async (productData) => {
