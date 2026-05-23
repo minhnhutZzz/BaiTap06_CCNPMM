@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import productService from '../../../services/product.service';
-import adminService from '../../../services/admin.service';
+import productService from '../../services/product.service';
+import adminService from '../../services/admin.service';
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -36,7 +36,7 @@ const ProductManagement = () => {
       const resProducts = await productService.getProducts({ page: 1, limit: 100 });
       const resCategories = await productService.getCategories();
       
-      if (resProducts.success) setProducts(resProducts.data.products);
+      if (resProducts.success) setProducts(resProducts.data); // API trả về mảng trong data
       if (resCategories.success) setCategories(resCategories.data);
     } catch (error) {
       console.error('Lỗi tải dữ liệu:', error);

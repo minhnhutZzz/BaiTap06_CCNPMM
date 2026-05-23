@@ -59,7 +59,6 @@ const userNavItems = [
 
 const adminNavItems = [
   { label: 'Thống kê', path: '/admin/dashboard', icon: <ChartBarIcon /> },
-  { label: 'Cửa hàng', path: '/user/home', icon: <StoreIcon /> },
   { label: 'Quản lý đơn hàng', path: '/admin/orders', icon: <DocumentIcon /> },
   { label: 'Quản lý sản phẩm', path: '/admin/products', icon: <CubeIcon /> },
   { label: 'Quản lý người dùng', path: '/admin/users', icon: <UsersIcon /> },

@@ -82,7 +82,7 @@ const Cart = () => {
           <div className="text-6xl mb-4">🛒</div>
           <h2 className="text-2xl font-semibold text-gray-700 mb-2">Giỏ hàng trống</h2>
           <p className="text-gray-500 mb-6">Hãy quay lại trang chủ để chọn món trà sữa yêu thích nhé!</p>
-          <Link to="/user" className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-xl transition-colors">
+          <Link to="/user/home" className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-xl transition-colors">
             Mua sắm ngay
           </Link>
         </div>

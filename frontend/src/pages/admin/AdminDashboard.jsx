@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import adminService from '../../../services/admin.service';
+import adminService from '../../services/admin.service';
 import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {

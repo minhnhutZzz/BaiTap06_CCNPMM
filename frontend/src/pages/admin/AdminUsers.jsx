@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import adminService from '../../../services/admin.service';
+import adminService from '../../services/admin.service';
 import { useSelector } from 'react-redux';
 
 const AdminUsers = () => {
@@ -27,14 +27,14 @@ const AdminUsers = () => {
   };
 
   const handleToggleStatus = async (userId, currentStatus) => {
-    const actionName = currentStatus === 1 ? 'Khóa' : 'Mở khóa';
+    const actionName = currentStatus === 'active' ? 'Khóa' : 'Mở khóa';
     if (!window.confirm(`Bạn có chắc chắn muốn ${actionName} tài khoản này?`)) return;
 
     try {
       const res = await adminService.toggleUserStatus(userId);
       if (res.success) {
-        // Cập nhật state trực tiếp
-        setUsers(prev => prev.map(u => u.id === userId ? { ...u, is_active: res.data.is_active } : u));
+        // Cập nhật state trực tiếp với field 'status' đúng
+        setUsers(prev => prev.map(u => u.id === userId ? { ...u, status: res.data.status } : u));
       }
     } catch (error) {
       alert(error.response?.data?.message || 'Có lỗi xảy ra khi cập nhật trạng thái');
@@ -73,7 +73,7 @@ const AdminUsers = () => {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  {u.is_active === 1 ? (
+                  {u.status === 'active' ? (
                     <span className="flex items-center gap-1.5 text-green-600 font-medium text-xs">
                       <span className="w-2 h-2 rounded-full bg-green-600"></span> Đang hoạt động
                     </span>
@@ -84,17 +84,16 @@ const AdminUsers = () => {
                   )}
                 </td>
                 <td className="px-6 py-4 text-right">
-                  {/* Không hiện nút khóa nếu tài khoản đó là của chính mình */}
                   {u.id !== currentUser?.id && (
                     <button
-                      onClick={() => handleToggleStatus(u.id, u.is_active)}
+                      onClick={() => handleToggleStatus(u.id, u.status)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        u.is_active === 1 
+                        u.status === 'active'
                           ? 'text-red-600 bg-red-50 hover:bg-red-100' 
                           : 'text-green-600 bg-green-50 hover:bg-green-100'
                       }`}
                     >
-                      {u.is_active === 1 ? 'Khóa TK' : 'Mở khóa'}
+                      {u.status === 'active' ? 'Khóa TK' : 'Mở khóa'}
                     </button>
                   )}
                 </td>

@@ -113,12 +113,40 @@ const Login = () => {
             {loading ? 'Đang xử lý...' : 'Đăng nhập'}
           </Button>
         </form>
-        <p className="mt-8 text-center text-gray-500 text-sm font-medium">
+        <p className="mt-6 text-center text-gray-500 text-sm font-medium">
           Chưa có tài khoản?{' '}
           <Link to="/register" className="text-indigo-600 hover:text-indigo-800 font-bold transition-colors">
             Đăng ký ngay
           </Link>
         </p>
+
+        {/* DEMO CREDENTIALS - Chỉ dùng để test */}
+        <div className="mt-6 border-t border-gray-100 pt-5">
+          <p className="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Tài khoản demo</p>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => { setEmail('admin@example.com'); setPassword('Admin@123456'); }}
+              className="flex flex-col items-center p-3 rounded-xl border border-purple-100 bg-purple-50 hover:bg-purple-100 transition-colors cursor-pointer"
+            >
+              <span className="text-lg">👑</span>
+              <span className="text-xs font-bold text-purple-700 mt-1">Admin</span>
+              <span className="text-[10px] text-purple-500 mt-0.5">admin@example.com</span>
+              <span className="text-[10px] text-purple-400">Admin@123456</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setEmail('user@example.com'); setPassword('User@123456'); }}
+              className="flex flex-col items-center p-3 rounded-xl border border-indigo-100 bg-indigo-50 hover:bg-indigo-100 transition-colors cursor-pointer"
+            >
+              <span className="text-lg">👤</span>
+              <span className="text-xs font-bold text-indigo-700 mt-1">Khách hàng</span>
+              <span className="text-[10px] text-indigo-500 mt-0.5">user@example.com</span>
+              <span className="text-[10px] text-indigo-400">User@123456</span>
+            </button>
+          </div>
+          <p className="text-center text-[10px] text-gray-300 mt-2">✨ Nhấn để tự điền vào ô</p>
+        </div>
       </div>
     </div>
   );
