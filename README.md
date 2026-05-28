@@ -151,13 +151,27 @@ cd frontend && npm run dev
 ---
 
 ## 1 số hình ảnh UI:
-*(Giữ nguyên các ảnh chụp UI của dự án ở phiên bản trước hoặc bổ sung thêm ảnh cho các trang mới)*
+# Login
+<img width="1897" height="909" alt="image" src="https://github.com/user-attachments/assets/c466faab-0523-4884-836a-885408b880fd" />
+# Role Khách hàng 
+<img width="1912" height="911" alt="image" src="https://github.com/user-attachments/assets/7448ecde-49ac-4222-a82d-f93fefaf3a50" />
+<img width="1915" height="912" alt="image" src="https://github.com/user-attachments/assets/1d98711f-6dc8-4644-8442-f61a9dcfadc8" />
+<img width="1916" height="913" alt="image" src="https://github.com/user-attachments/assets/29289e0d-809e-4b43-bf31-b9b2dfd43f86" />
+<img width="1916" height="908" alt="image" src="https://github.com/user-attachments/assets/caafd87e-fe7e-446a-8dd3-f442f633b3a5" />
+<img width="1913" height="908" alt="image" src="https://github.com/user-attachments/assets/f546719b-32b7-42cc-9e11-a8720da87d5f" />
+<img width="1917" height="911" alt="image" src="https://github.com/user-attachments/assets/a252a146-95ce-480e-86e1-4332bfa3b52e" />
+<img width="1915" height="911" alt="image" src="https://github.com/user-attachments/assets/07cb1fc7-7e57-44c7-afbd-d08295749867" />
+<img width="1917" height="911" alt="image" src="https://github.com/user-attachments/assets/a8e00934-2c7c-49fb-bf2e-7e0a4d451151" />
+# Admin
+<img width="1916" height="912" alt="image" src="https://github.com/user-attachments/assets/a02bf3ce-40f0-46bb-bd04-52ad866a5072" />
+<img width="1919" height="913" alt="image" src="https://github.com/user-attachments/assets/2a0b51b1-61f6-4175-9b22-04bb3a3901ca" />
+<img width="1915" height="911" alt="image" src="https://github.com/user-attachments/assets/dc4e3dbb-65cb-4854-aad0-8651d08d5124" />
+<img width="1916" height="910" alt="image" src="https://github.com/user-attachments/assets/393529b9-5fc8-412e-92c5-c558b33e8090" />
+<img width="1917" height="911" alt="image" src="https://github.com/user-attachments/assets/14840c2f-3e26-4602-b105-e0bf8b905cfb" />
 
-<img width="1896" height="906" alt="image" src="https://github.com/user-attachments/assets/df113392-3630-4150-b337-e2d314cd1ace" />
-<img width="1895" height="907" alt="image" src="https://github.com/user-attachments/assets/b5feacae-5801-4919-b86b-6cc36668bc90" />
-<img width="1892" height="901" alt="image" src="https://github.com/user-attachments/assets/30f9e1f8-919d-485d-8275-18f58a3b1cdc" />
-<img width="1894" height="894" alt="image" src="https://github.com/user-attachments/assets/06755469-c0c3-4ca9-94a8-53efe63d4db2" />
-<img width="1895" height="905" alt="image" src="https://github.com/user-attachments/assets/2c5f5c13-401b-49b7-b98b-85092f32ad47" />
-<img width="1891" height="898" alt="image" src="https://github.com/user-attachments/assets/7c37b22e-887e-48e1-b050-122d0e9460d0" />
-<img width="1900" height="791" alt="image" src="https://github.com/user-attachments/assets/c33a06a7-2fc8-4ff1-b3c5-8105b45003ac" />
-<img width="1894" height="908" alt="image" src="https://github.com/user-attachments/assets/cb7a13a6-d038-404b-bf24-56081ef47743" />
+
+
+
+
+
+
